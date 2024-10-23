@@ -1,0 +1,15 @@
+S
+A
+B
+STOP
+a
+b
+STOP
+S -> a B
+S -> a A
+B -> b B
+B -> a
+A -> a A
+A -> b
+STOP
+S

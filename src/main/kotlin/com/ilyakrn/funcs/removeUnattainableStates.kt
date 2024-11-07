@@ -1,8 +1,8 @@
 package com.ilyakrn.funcs
 
-import com.ilyakrn.models.NFA
+import com.ilyakrn.models.DFA
 
-fun removeUnattainableStates(a: NFA): NFA {
+fun removeUnattainableStates(a: DFA): DFA {
 
     val attainable = HashSet<String>()
     var newAttainable = HashSet<String>()
@@ -13,26 +13,18 @@ fun removeUnattainableStates(a: NFA): NFA {
         for (state in attainable){
             for (symb in a.symb){
                 if (a.transitions[Pair(state, symb)] != null)
-                    newAttainable.addAll(a.transitions[Pair(state, symb)]!!)
+                    newAttainable.add(a.transitions[Pair(state, symb)]!!)
             }
         }
     }
     attainable.addAll(newAttainable)
 
-    val newTransitions = HashMap<Pair<String, String>, HashSet<String>>();
+    val newTransitions = HashMap<Pair<String, String>, String>();
     for (transition in a.transitions){
-        if (!attainable.contains(transition.key.first)){
+        if (!attainable.contains(transition.key.first) || !attainable.contains(transition.value)){
             continue
         }
-        val newRes = HashSet<String>()
-        for (res in transition.value){
-            if (!attainable.contains(res))
-                continue
-            newRes.add(res)
-        }
-        if (newRes.isEmpty())
-            continue
-        newTransitions[Pair(transition.key.first, transition.key.second)] = newRes
+        newTransitions[Pair(transition.key.first, transition.key.second)] = transition.value
     }
     var newEnds = HashSet<String>()
     for (e in a.ends){
@@ -40,6 +32,6 @@ fun removeUnattainableStates(a: NFA): NFA {
             continue
         newEnds.add(e)
     }
-    return NFA(a.symb, attainable, newTransitions, a.start, newEnds)
+    return DFA(a.symb, attainable, newTransitions, a.start, newEnds)
 
 }

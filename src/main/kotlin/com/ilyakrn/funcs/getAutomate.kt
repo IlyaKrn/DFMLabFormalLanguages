@@ -1,17 +1,16 @@
 package com.ilyakrn.funcs
 
-import com.ilyakrn.models.NFA
+import com.ilyakrn.models.DFA
 import java.io.InputStream
-import java.io.OutputStream
 import java.io.PrintStream
 import java.util.Scanner
 
-fun getAutomate(input: InputStream, output: PrintStream?): NFA {
+fun getAutomate(input: InputStream, output: PrintStream?): DFA {
 
     val scanner = Scanner(input)
     val alphabet = HashSet<String>()
     val states = HashSet<String>()
-    val transitions = HashMap<Pair<String, String>, HashSet<String>>()
+    val transitions = HashMap<Pair<String, String>, String>()
     var start = ""
     var ends = HashSet<String>()
 
@@ -41,10 +40,7 @@ fun getAutomate(input: InputStream, output: PrintStream?): NFA {
     while (inputLine != "STOP") {
         val tr = inputLine.split(" ")
         if (tr.size == 4 && states.contains(tr[0]) && states.contains(tr[3]) && alphabet.contains(tr[1])) {
-            if (!transitions.keys.contains(Pair(tr[0], tr[1]))) {
-                transitions[Pair(tr[0], tr[1])] = HashSet()
-            }
-            transitions[Pair(tr[0], tr[1])]!!.add(tr[3]);
+            transitions[Pair(tr[0], tr[1])] = tr[3]
         }
         else
             output?.println("wrong input $inputLine skipped, try again")
@@ -73,6 +69,6 @@ fun getAutomate(input: InputStream, output: PrintStream?): NFA {
         inputLine = scanner.nextLine()
     }
 
-    return NFA(alphabet, states, transitions, start, ends)
+    return DFA(alphabet, states, transitions, start, ends)
 
 }

@@ -1,9 +1,9 @@
 package com.ilyakrn.models
 
-data class NFA(
+data class DFA(
     var symb: HashSet<String>,
     var q: HashSet<String>,
-    var transitions: HashMap<Pair<String, String>, HashSet<String>>,
+    var transitions: HashMap<Pair<String, String>, String>,
     var start: String,
     var ends: HashSet<String>
 

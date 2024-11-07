@@ -7,13 +7,9 @@ import java.io.FileInputStream
 
 fun main() {
 
-    var a = getAutomate(FileInputStream("C:\\Users\\IlyaKrn\\IdeaProjects\\DFMLabFormalLanguages\\src\\main\\resources\\test.txt"), System.out)
+    var a = getAutomate(FileInputStream("C:\\Users\\IlyaKrn\\IdeaProjects\\DFMLabFormalLanguages\\src\\main\\resources\\test.txt"), null)
     a = removeUnattainableStates(a)
-
-
-
-
-    
+    a = connectEqualsStates(a)
     println(a)
 
 }

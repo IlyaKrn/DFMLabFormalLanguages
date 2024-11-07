@@ -1,15 +1,28 @@
-S
-A
-B
-STOP
 a
 b
 STOP
-S -> a B
-S -> a A
-B -> b B
-B -> a
-A -> a A
-A -> b
+A
+B
+C
+D
+E
+F
+G
 STOP
-S
+A a -> B
+A b -> C
+B b -> D
+C b -> E
+D a -> C
+D b -> E
+E a -> B
+E b -> D
+F a -> D
+F b -> G
+G a -> F
+G b -> E
+STOP
+A
+D
+E
+STOP

@@ -3,11 +3,14 @@ package com.ilyakrn
 import com.ilyakrn.funcs.connectEqualsStates
 import com.ilyakrn.funcs.getAutomate
 import com.ilyakrn.funcs.removeUnattainableStates
+import java.io.File
 import java.io.FileInputStream
+import java.util.Scanner
 
 fun main() {
 
-    var a = getAutomate(FileInputStream("C:\\Users\\IlyaKrn\\IdeaProjects\\DFMLabFormalLanguages\\src\\main\\resources\\test.txt"), null)
+    println("enter path to input file:")
+    var a = getAutomate(FileInputStream(File(Scanner(System.`in`).nextLine())), null)
     println("Start automate:\n$a")
     a = removeUnattainableStates(a)
     a = connectEqualsStates(a)

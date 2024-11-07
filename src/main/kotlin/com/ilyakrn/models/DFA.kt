@@ -15,6 +15,24 @@ data class DFA(
             transitionsString += "${it.key} -> ${it.value},\n"
         }
         transitionsString += "\n}\n"
-        return "FA(\nsymb=$symb, \nq=$q, \ntransitions=$transitionsString, \nstart='$start', \nends=$ends\n)"
+        var result = ""
+        result += "alphabet:\n"
+        symb.forEach {
+            result += "${it}\n"
+        }
+        result += "states:\n"
+        q.forEach {
+            result += "${it}\n"
+        }
+        result += "transitions:\n"
+        transitions.forEach{
+            result += "${it.key.first} ${it.key.second} -> ${it.value}\n"
+        }
+        result += "start:\n${start}\n"
+        result += "end:\n"
+        ends.forEach {
+            result += "$it\n"
+        }
+        return result
     }
 }

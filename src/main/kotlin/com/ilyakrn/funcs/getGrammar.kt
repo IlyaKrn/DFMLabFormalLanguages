@@ -1,6 +1,6 @@
 package com.ilyakrn.funcs
 
-import com.ilyakrn.models.Grammar
+import com.ilyakrn.models.CFGrammar
 import java.io.InputStream
 import java.io.PrintStream
 import java.util.*
@@ -9,13 +9,13 @@ import kotlin.collections.HashMap
 import kotlin.collections.HashSet
 
 
-fun getGrammar(stream: InputStream, out: PrintStream?): Grammar {
+fun getGrammar(stream: InputStream, out: PrintStream?): CFGrammar {
     // Scanner of input stream
     val scanner = Scanner(stream)
     // initial values of grammar
     val terminals = HashSet<String>()
     val nonTerminals = HashSet<String>()
-    val rules = ArrayList<Triple<String, String, String?>>()
+    val rules = ArrayList<Pair<String, ArrayList<String>>>()
     var start = ""
     var linearly = 0 // 0 none; 1 right; -1 left;
 
@@ -57,42 +57,29 @@ fun getGrammar(stream: InputStream, out: PrintStream?): Grammar {
     inputLine = scanner.nextLine()
     while (inputLine != "STOP") {
         val lineSep = inputLine.split(" ")
-        if (lineSep.size == 3){
-            if (nonTerminals.contains(lineSep[0]) && terminals.contains(lineSep[2])) {
-                rules.add(Triple(lineSep[0], lineSep[2], null))
-                inputLine = scanner.nextLine()
-                continue
-            }
+        if (lineSep.size < 3){
             out?.println("wrong Rule $inputLine skipped, try again")
-            inputLine = scanner.nextLine()
-            continue
         }
-        else if (lineSep.size == 4){
-            // right grammar
-            if (nonTerminals.contains(lineSep[0]) && terminals.contains(lineSep[2]) && nonTerminals.contains(lineSep[3])){
-                if (linearly == -1) {
-                    out?.println("wrong Rule $inputLine skipped (different linearly), try again")
-                    inputLine = scanner.nextLine()
-                    continue
-                }
-                rules.add(Triple(lineSep[0], lineSep[2], lineSep[3]))
-                linearly = 1
-            }
-            // left grammar
-            else if (nonTerminals.contains(lineSep[0]) && nonTerminals.contains(lineSep[2]) && terminals.contains(lineSep[3])){
-                if (linearly == 1) {
-                    out?.println("wrong Rule $inputLine skipped (different linearly), try again")
-                    inputLine = scanner.nextLine()
-                    continue
-                }
-                rules.add(Triple(lineSep[0], lineSep[2], lineSep[3]))
-                linearly = -1
-            }
-            else
+        if (!nonTerminals.contains(lineSep[0])){
+            out?.println("wrong Rule $inputLine skipped, try again")
+        }
+        var fl = false
+        for (i in lineSep.indices){
+            if(i > 1 && !nonTerminals.contains(lineSep[i]) && !terminals.contains(lineSep[i])){
                 out?.println("wrong Rule $inputLine skipped, try again")
+                fl = true
+                break
+            }
         }
-        else
-            out?.println("wrong Rule $inputLine skipped, try again")
+        if (fl)
+            continue
+        val r = ArrayList<String>()
+        for (i in lineSep.indices){
+            if(i > 1 && (!nonTerminals.contains(lineSep[i]) || !terminals.contains(lineSep[i]))){
+                r.add(lineSep[i])
+            }
+        }
+        rules.add(Pair(lineSep[0], r))
         inputLine = scanner.nextLine()
     }
     // checking empty input
@@ -116,6 +103,6 @@ fun getGrammar(stream: InputStream, out: PrintStream?): Grammar {
     if (nonTerminals.size == 0 || terminals.size == 0 || rules.size == 0)
         throw RuntimeException("Input is empty")
 
-    return Grammar(terminals, nonTerminals, rules, start, linearly == 1)
+    return CFGrammar(terminals, nonTerminals, rules, start)
 }
 

@@ -2,14 +2,12 @@ S
 A
 B
 STOP
-a
-b
+0
+1
 STOP
-S -> a B
-S -> a A
-B -> b B
-B -> a
-A -> a A
-A -> b
+S -> A B
+A -> 0 A
+A -> 0
+B -> 1
 STOP
 S

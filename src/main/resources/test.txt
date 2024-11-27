@@ -1,13 +1,13 @@
 S
-A
 B
+C
 STOP
-0
-1
+a
+b
+c
 STOP
-S -> A B
-A -> 0 A
-A -> 0
-B -> 1
+S -> a b
+B -> b
+C -> c b
 STOP
 S

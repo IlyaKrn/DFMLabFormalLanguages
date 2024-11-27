@@ -2,6 +2,7 @@ package com.ilyakrn
 
 import com.ilyakrn.funcs.checkLanguageExists
 import com.ilyakrn.funcs.getGrammar
+import com.ilyakrn.funcs.removeExtraNonTerminals
 import java.io.File
 import java.io.FileInputStream
 import java.util.*
@@ -35,8 +36,9 @@ fun main() {
 
 
 
-    val g = getGrammar(inputStream, System.out)
-    println(checkLanguageExists(g))
+    var g = getGrammar(inputStream, System.out)
+    checkLanguageExists(g)
+    g = removeExtraNonTerminals(g)
     println(g)
 
 

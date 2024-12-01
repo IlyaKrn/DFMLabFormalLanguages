@@ -3,6 +3,7 @@ package com.ilyakrn
 import com.ilyakrn.funcs.checkLanguageExists
 import com.ilyakrn.funcs.getGrammar
 import com.ilyakrn.funcs.removeExtraNonTerminals
+import com.ilyakrn.funcs.removeExtraSymbols
 import java.io.File
 import java.io.FileInputStream
 import java.util.*
@@ -39,6 +40,7 @@ fun main() {
     var g = getGrammar(inputStream, System.out)
     checkLanguageExists(g)
     g = removeExtraNonTerminals(g)
+    g = removeExtraSymbols(g)
     println(g)
 
 

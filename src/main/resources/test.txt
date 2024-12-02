@@ -1,13 +1,14 @@
 S
+A
 B
-C
 STOP
-a
-b
-c
+0
+1
 STOP
-S -> a b
-B -> b
-C -> c b
+S -> A B
+A -> 0 A
+A -> EPSILON
+B -> 1 B
+B -> EPSILON
 STOP
 S

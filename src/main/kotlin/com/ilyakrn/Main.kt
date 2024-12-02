@@ -1,9 +1,6 @@
 package com.ilyakrn
 
-import com.ilyakrn.funcs.checkLanguageExists
-import com.ilyakrn.funcs.getGrammar
-import com.ilyakrn.funcs.removeExtraNonTerminals
-import com.ilyakrn.funcs.removeExtraSymbols
+import com.ilyakrn.funcs.*
 import java.io.File
 import java.io.FileInputStream
 import java.util.*
@@ -41,6 +38,7 @@ fun main() {
     checkLanguageExists(g)
     g = removeExtraNonTerminals(g)
     g = removeExtraSymbols(g)
+    g = removeExtraEpsilonRules(g)
     println(g)
 
 

@@ -13,6 +13,7 @@ fun main() {
         g = removeExtraSymbols(g)
         g = removeExtraEpsilonRules(g)
         g = removeChainRules(g)
+        g = removeLeftFact(g)
         println(g)
         return
     }

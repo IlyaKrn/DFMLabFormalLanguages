@@ -1,13 +1,12 @@
-L
-M
-N
+S
 STOP
-+
+k
+l
+m
 n
 STOP
-L -> M
-M -> N
-N -> N +
-N -> n
+S -> k S l
+S -> k S m
+S -> n
 STOP
-L
+S

@@ -7,6 +7,22 @@ data class CFGrammar (
     var start: String
 ) {
     override fun toString(): String {
-        return "CFGrammar(alphabet=$alphabet, nonTerminals=$nonTerminals, rules=$rules, start='$start')"
+        var alphabetS = "alphabet: "
+        alphabet.forEach {
+            alphabetS += "$it "
+        }
+        var nonTerminalsS = "nonTerminals: "
+        nonTerminals.forEach {
+            nonTerminalsS += "$it "
+        }
+        var rulesS = "rules:\n"
+        rules.forEach {
+            var r = ""
+            it.second.forEach { it1 ->
+                r += "$it1 "
+            }
+            rulesS += "${it.first} -> $r\n"
+        }
+        return "CFGrammar:\n$alphabetS\n$nonTerminalsS\n${rulesS}start: $start\n"
     }
 }

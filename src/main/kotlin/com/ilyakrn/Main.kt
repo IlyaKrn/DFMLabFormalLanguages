@@ -14,6 +14,7 @@ fun main() {
         g = removeExtraEpsilonRules(g)
         g = removeChainRules(g)
         g = removeLeftFact(g)
+    //    g = removeDirectLeftRec(g)
         println(g)
         return
     }

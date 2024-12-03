@@ -14,22 +14,37 @@ fun removeLeftFact(grammar: CFGrammar): CFGrammar {
             }
         }
         val prefixes = HashSet<ArrayList<String>>()
-        for (i in 0..xRights.sortedBy { it.size }.size) {
+
+        var deep = 0
+        xRights.forEach {
+            if (deep < it.size) deep = it.size
+        }
+        for (i in 0 until deep) {
             prefixes.addAll(getPrefixes(hashSetOf(arrayListOf()), xRights, i))
         }
+        if (prefixes.contains(emptyList()))
+            prefixes.remove(emptyList())
         val newPrefixes = HashSet<ArrayList<String>>(prefixes)
         prefixes.forEach { prefix1 ->
             prefixes.forEach { prefix2 ->
-                if (prefix1.size < prefix2.size) {
-                    var fl = true
-                    for (i in prefix1.indices) {
-                        if (prefix1[i] != prefix2[i]) {
-                            fl = false
+                var count = 0
+                xRights.forEach {
+                    if (prefix2.size < it.size) count++
+                }
+                if (count < 2) {
+                    newPrefixes.remove(prefix2)
+                }
+                else {
+                    if (prefix1.size < prefix2.size) {
+                        var fl = true
+                        for (i in prefix1.indices) {
+                            if (prefix1[i] != prefix2[i]) {
+                                fl = false
+                            }
                         }
+                        if (fl || prefix1.isEmpty())
+                            newPrefixes.remove(prefix1)
                     }
-                    if (fl || prefix1.isEmpty())
-                        newPrefixes.remove(prefix1)
-
                 }
             }
         }
@@ -52,17 +67,29 @@ fun removeLeftFact(grammar: CFGrammar): CFGrammar {
             newR.add(Pair(x, arrayListOf("PREFIX_" + prefix.toString())))
         }
     }
+    println(newR)
     grammar.rules.forEach { rule ->
+        var fl = true
         allPrefixes.forEach { prefix ->
-            var fl = false
+            var fl1= true
             for (i in prefix.indices) {
-                if (prefix.size > rule.second.size || prefix[i] != rule.second[i]) {
-                    fl = true
+                if (prefix.size < rule.second.size && prefix[i] != rule.second[i]) {
+                    fl = false
                 }
             }
-            if (fl)
-                newR.add(rule)
+            if (fl1) {
+                fl1 = false
+            }
         }
+        if (fl)
+            newR.add(rule)
+    }
+    newNT.addAll(grammar.nonTerminals)
+
+    val temp = HashSet<Pair<String, ArrayList<String>>>(newR)
+    newR.clear()
+    temp.forEach {
+        newR.add(it)
     }
 
     return CFGrammar(grammar.alphabet, newNT, newR, grammar.start)
@@ -109,11 +136,7 @@ fun getPrefixes(prefixes: HashSet<ArrayList<String>>, rights: HashSet<ArrayList<
 
 fun main() {
     println(getPrefixes(hashSetOf(arrayListOf()), hashSetOf(
-        arrayListOf("a", "a", "f"),
-        arrayListOf("a", "a", "g"),
-        arrayListOf("a", "g"),
-        arrayListOf("e", "s", "f", "f"),
-        arrayListOf("e", "s", "f", "g"),
-        arrayListOf("e")
+        arrayListOf("d", "b", "z", "Z" ),
+        arrayListOf("d", "b", "z")
     ), 3))
 }

@@ -2,7 +2,6 @@ S
 A
 B
 C
-Z
 STOP
 a
 b
@@ -14,9 +13,7 @@ S -> A a
 A -> B b
 B -> C c
 B -> d
-C -> d b z Z
+C -> C c b z
 C -> d b z
-Z -> c b z Z
-Z -> c b z
 STOP
 S

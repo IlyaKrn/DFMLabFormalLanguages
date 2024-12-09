@@ -1,15 +1,29 @@
 S
-A
-B
+R
+T
+F
+E
 STOP
 a
 b
+k
+{
+[
+}
+]
+ort
 STOP
-S -> a B
-S -> a A
-B -> b B
-B -> a
-A -> a A
-A -> b
+S -> { R
+S -> [ R
+R -> R a }
+R -> R a ]
+R -> a
+R -> T
+R -> F
+R -> EPSILON
+F -> { F }
+F -> b b
+T -> [ T ]
+E -> r ort
 STOP
 S
